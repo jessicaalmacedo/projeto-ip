@@ -6,7 +6,7 @@ pygame.init()
 pygame.display.set_caption('menu')
 tamanhotela = (960,540)
 telaprincipal = pygame.display.set_mode(tamanhotela) 
-fonte = pygame.font.Font('menuzinho/fonts/alagard.ttf', 25)
+fonte = pygame.font.Font('menuzinho/fonts/alagard.ttf', 20)
 
 botãoimagem = pygame.image.load('menuzinho/imagens/botoes.png')
 
@@ -20,22 +20,23 @@ def printarimagem(repositorio, escala, tela, posição):
     tela.blit(imagem, posição)
 
 class botão():
-    def __init__(self, x, y, imagem, texto, ajustetexto=(0,0)):
-        self.image = imagem
+    def __init__(self, x, y, imagem, escala):
+        self.altura = imagem.get_height()
+        self.compri = imagem.get_width()
+        self.image = pygame.transform.scale(imagem, (self.altura * escala, self.compri * escala))
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
-        self.text = texto
-        self.ajuste = (x + ajustetexto[0], y + ajustetexto[1])
 
     def draw(self):#bots botao na tela
-        printarimagem('menuzinho/imagens/botoes.png', (275, 114), telaprincipal, self.ajuste)
-        printartext(self.text, fonte, 'white', telaprincipal, self.ajuste)
+
+        mouse = pygame.mouse.get_pos()
+        printarimagem('menuzinho/imagens/botoes.png', (192, 56), telaprincipal, (self.rect.x, self.rect.y))
         
 
 def menu_principal():
-    botaplay = botão(200, 250, botãoimagem, 'fui gongada')
-    botaexit = botão(200, 300, botãoimagem, 'sair')
-    botacredits = botão(200, 350, botãoimagem, 'créditos')
+    botaplay = botão(150, 200, botãoimagem, 0.7)
+    botaexit = botão(150, 270, botãoimagem, 0.7)
+    botacredits = botão(150, 340, botãoimagem, 0.7)
     while True:
         telaprincipal.fill('black')
         printarimagem('menuzinho/imagens/fundomenu.png', tamanhotela, telaprincipal, (0,0))
